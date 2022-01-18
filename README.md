@@ -1,2 +1,3 @@
-# rexco-blog-App
-A Complete REST API service for a Blog App
+# Rexco-Blog-App
+A Complete backEnd RESTful API for a Blog App
+
