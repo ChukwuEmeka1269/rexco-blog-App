@@ -1,17 +1,19 @@
 package com.javastriker69.blog.controller;
 
 import com.javastriker69.blog.payload.PostDto;
+import com.javastriker69.blog.payload.PostResponse;
 import com.javastriker69.blog.service.PostService;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/v1/posts")
 public class PostController {
-    private PostService postService;
+    private final PostService postService;
 
     public PostController(PostService postService) {
         this.postService = postService;
@@ -23,8 +25,11 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PostDto>> getAllPost(){
-        return new ResponseEntity<>(postService.getAllPost(), HttpStatus.OK);
+    public ResponseEntity<PostResponse> getAllPost(@RequestParam(name = "pageNo", defaultValue = "0", required = false)int pageNo,
+                                                   @RequestParam(name = "pageSize", defaultValue = "10", required = false)int pageSize,
+                                                   @RequestParam(name = "sortBy", defaultValue = "postId", required = false)String sortBy,
+                                                   @RequestParam(name = "sortDir", defaultValue = "asc", required = false)String sortDir){
+        return new ResponseEntity<>(postService.getAllPost(pageNo, pageSize, sortBy, sortDir), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

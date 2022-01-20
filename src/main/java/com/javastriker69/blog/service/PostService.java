@@ -1,12 +1,12 @@
 package com.javastriker69.blog.service;
 
 import com.javastriker69.blog.payload.PostDto;
+import com.javastriker69.blog.payload.PostResponse;
 
-import java.util.List;
 
 public interface PostService {
     PostDto createPost(PostDto postDto);
-    List<PostDto> getAllPost();
+    PostResponse getAllPost(int pageNo, int pageSize, String sortBy, String sortDir);
     PostDto getPostById(Long postId);
     PostDto updatePost(Long postId, PostDto newPostDto);
     void deletePosts();
