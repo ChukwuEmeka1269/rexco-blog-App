@@ -3,7 +3,7 @@ package com.javastriker69.blog.controller;
 import com.javastriker69.blog.payload.PostDto;
 import com.javastriker69.blog.payload.PostResponse;
 import com.javastriker69.blog.service.PostService;
-import org.springframework.data.domain.Sort;
+import com.javastriker69.blog.utils.Constants;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,26 +25,26 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity<PostResponse> getAllPost(@RequestParam(name = "pageNo", defaultValue = "0", required = false)int pageNo,
-                                                   @RequestParam(name = "pageSize", defaultValue = "10", required = false)int pageSize,
-                                                   @RequestParam(name = "sortBy", defaultValue = "postId", required = false)String sortBy,
-                                                   @RequestParam(name = "sortDir", defaultValue = "asc", required = false)String sortDir){
+    public ResponseEntity<PostResponse> getAllPost(@RequestParam(name = "pageNo", defaultValue = Constants.DEFAULT_PAGE_NUMBER, required = false)int pageNo,
+                                                   @RequestParam(name = "pageSize", defaultValue = Constants.DEFAULT_PAGE_SIZE, required = false)int pageSize,
+                                                   @RequestParam(name = "sortBy", defaultValue = Constants.DEFAULT_SORT_BY, required = false)String sortBy,
+                                                   @RequestParam(name = "sortDir", defaultValue = Constants.DEFAULT_SORT_DIRECTION, required = false)String sortDir){
         return new ResponseEntity<>(postService.getAllPost(pageNo, pageSize, sortBy, sortDir), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PostDto> getPostById(@PathVariable (name = "id") Long postId){
+    public ResponseEntity<PostDto> getPostById(@PathVariable (value = "id") Long postId){
         return new ResponseEntity<>(postService.getPostById(postId), HttpStatus.OK);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<PostDto> editPost(@PathVariable (name = "id") Long postId, @RequestBody PostDto newPostDto){
+    public ResponseEntity<PostDto> editPost(@PathVariable (value = "id") Long postId, @RequestBody PostDto newPostDto){
         return new ResponseEntity<>(postService.updatePost(postId, newPostDto), HttpStatus.OK);
     }
 
 
     @DeleteMapping("{id}")
-    public ResponseEntity<String> deletePost(@PathVariable(name = "id") Long postId){
+    public ResponseEntity<String> deletePost(@PathVariable(value = "id") Long postId){
         postService.deletePostById(postId);
         return new ResponseEntity<>("Post deleted successfully", HttpStatus.OK);
     }
