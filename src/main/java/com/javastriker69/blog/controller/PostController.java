@@ -6,8 +6,10 @@ import com.javastriker69.blog.service.PostService;
 import com.javastriker69.blog.utils.Constants;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 
 
 @RestController
@@ -20,7 +22,8 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<PostDto> createAPost(@RequestBody PostDto postDto){
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<PostDto> createAPost(@Valid @RequestBody PostDto postDto){
         return new ResponseEntity<>(postService.createPost(postDto), HttpStatus.CREATED);
     }
 
@@ -38,18 +41,21 @@ public class PostController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<PostDto> editPost(@PathVariable (value = "id") Long postId, @RequestBody PostDto newPostDto){
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<PostDto> editPost(@PathVariable (value = "id") Long postId, @Valid @RequestBody PostDto newPostDto){
         return new ResponseEntity<>(postService.updatePost(postId, newPostDto), HttpStatus.OK);
     }
 
 
     @DeleteMapping("{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> deletePost(@PathVariable(value = "id") Long postId){
         postService.deletePostById(postId);
         return new ResponseEntity<>("Post deleted successfully", HttpStatus.OK);
     }
 
     @DeleteMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> deleteAllPost(){
         postService.deletePosts();
         return new ResponseEntity<>(" All post have been deleted successfully", HttpStatus.OK);

@@ -6,6 +6,7 @@ import com.javastriker69.blog.payload.PostDto;
 import com.javastriker69.blog.payload.PostResponse;
 import com.javastriker69.blog.repository.PostRepository;
 import com.javastriker69.blog.service.PostService;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,10 +18,12 @@ import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImplementation implements PostService {
+    private ModelMapper mapper;
     private final PostRepository postRepository;
 
-    public PostServiceImplementation(PostRepository postRepository) {
+    public PostServiceImplementation(PostRepository postRepository, ModelMapper mapper) {
         this.postRepository = postRepository;
+        this.mapper = mapper;
     }
 
     @Override
@@ -60,7 +63,7 @@ public class PostServiceImplementation implements PostService {
     @Override
     public PostDto getPostById(Long postId) {
         Post post = postRepository.findById(postId).orElseThrow(
-                () -> new ResourceNotFoundException("Post", "postId", postId)
+                () -> new ResourceNotFoundException("Post", "id", postId)
         );
         return  mapPostToDto(post);
     }
@@ -68,7 +71,7 @@ public class PostServiceImplementation implements PostService {
     @Override
     public PostDto updatePost(Long postId, PostDto newPostDto) {
         Post post = postRepository.findById(postId).orElseThrow(
-                () -> new ResourceNotFoundException("Post", "postId", postId)
+                () -> new ResourceNotFoundException("Post", "id", postId)
         );
         PostDto postDto = mapPostToDto(post);
         postDto.setId(postId);
@@ -88,7 +91,7 @@ public class PostServiceImplementation implements PostService {
     @Override
     public void deletePostById(Long postId) {
         Post post = postRepository.findById(postId).orElseThrow(
-                () -> new ResourceNotFoundException("Post", "postId", postId)
+                () -> new ResourceNotFoundException("Post", "id", postId)
         );
         postRepository.delete(post);
     }
@@ -144,21 +147,12 @@ public class PostServiceImplementation implements PostService {
 //    }
 
     private Post mapDtoToPost(PostDto postDto) {
-        Post convertedPost = new Post();
-        convertedPost.setPostId(postDto.getId());
-        convertedPost.setTitle(postDto.getTitle());
-        convertedPost.setDescription(postDto.getDescription());
-        convertedPost.setContent(postDto.getContent());
-        return convertedPost;
+        return mapper.map(postDto, Post.class);
     }
 
     private PostDto mapPostToDto(Post post) {
-        PostDto responseDto = new PostDto();
-        responseDto.setId(post.getPostId());
-        responseDto.setTitle(post.getTitle());
-        responseDto.setDescription(post.getDescription());
-        responseDto.setContent(post.getContent());
-        return responseDto;
+
+        return mapper.map(post, PostDto.class);
     }
 
 

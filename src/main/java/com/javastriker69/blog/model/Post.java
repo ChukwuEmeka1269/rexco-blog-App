@@ -29,7 +29,7 @@ public class Post {
     private String content;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-//    @ToString.Exclude
+    @ToString.Exclude
     private Set<Comment> comments;
 
     @Override

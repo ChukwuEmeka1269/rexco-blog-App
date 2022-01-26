@@ -25,7 +25,7 @@ public class Comment {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "postId", nullable = false)
-//    @ToString.Exclude
+    @ToString.Exclude
     private Post post;
 
     @Override
