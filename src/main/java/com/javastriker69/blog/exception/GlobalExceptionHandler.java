@@ -59,17 +59,4 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
-    //Second approach
-    //TODO this second method is buggy.
-//    @ExceptionHandler(MethodArgumentNotValidException.class)
-//    private ResponseEntity<Object> handleAPIException(MethodArgumentNotValidException exception){
-//       Map<String, String> errors = new HashMap<>();
-//       exception.getBindingResult().getAllErrors().forEach((error) ->{
-//           String fieldName = ((FieldError) error).getField();
-//           String defaultMessage = error.getDefaultMessage();
-//           errors.put(fieldName, defaultMessage);
-//       });
-//        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-//    }
-
 }
