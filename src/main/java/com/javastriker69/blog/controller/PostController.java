@@ -61,19 +61,4 @@ public class PostController {
         return new ResponseEntity<>(" All post have been deleted successfully", HttpStatus.OK);
     }
 
-//    @PatchMapping("/{id}")
-//    public ResponseEntity<PostDto> editPostTitle(@PathVariable(name = "id") Long postId, @RequestBody String newTitle){
-//        return new ResponseEntity<>(postService.updatePostTitle(postId, newTitle), HttpStatus.OK);
-//    }
-
-//    @PatchMapping("/{id}")
-//    public ResponseEntity<PostDto> editPostDescription(@PathVariable(name = "id") Long postId, @RequestBody String newDescription){
-//        return new ResponseEntity<>(postService.updatePostDescription(postId, newDescription), HttpStatus.OK);
-//    }
-//
-//    @PatchMapping("/{id}")
-//    public ResponseEntity<PostDto> editPostContent(@PathVariable(name = "id") Long postId, @RequestBody String newContent){
-//        return new ResponseEntity<>(postService.updatePostContent(postId, newContent), HttpStatus.OK);
-//    }
-
 }
